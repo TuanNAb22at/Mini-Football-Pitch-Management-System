@@ -43,4 +43,5 @@ public class TransactionEntity{
 
     @Column(name = "modifiedby")
     private String modifiedBy;
+
 }

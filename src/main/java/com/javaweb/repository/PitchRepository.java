@@ -14,6 +14,9 @@ import java.util.List;
 @Repository
 public interface PitchRepository extends JpaRepository<PitchEntity, Long> , PitchRepositoryCustom {
     List<PitchEntity> findByTypeContaining(String type);
+    @Query("SELECT DISTINCT p.type FROM PitchEntity p")
+    List<String> findAllPitchTypes();
+    <S extends PitchEntity> S save(S entity);
 }
 
 

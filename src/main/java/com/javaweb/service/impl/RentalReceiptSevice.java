@@ -8,6 +8,7 @@ import com.javaweb.entity.RentalReceiptEntity;
 import com.javaweb.model.dto.CustomerDTO;
 import com.javaweb.model.dto.PitchDTO;
 import com.javaweb.model.request.BookingRequest;
+import com.javaweb.model.request.PitchRentalReceiptRequest;
 import com.javaweb.model.response.RentalReceiptResponse;
 import com.javaweb.repository.CustomerRepository;
 import com.javaweb.repository.PitchRentalDetailRepository;
@@ -22,7 +23,6 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
-
 @Service
 @Transactional
 public class RentalReceiptSevice implements IRentalReceiptService {
@@ -34,10 +34,13 @@ public class RentalReceiptSevice implements IRentalReceiptService {
     private pitchConverter pitchDTOConverter;
     @Autowired
     private CustomerConverter customerConverter;
+
     @Autowired
     private RentalReceiptRepository rentalReceiptRepository;
+
     @Autowired
     private PitchRentalDetailRepository pitchRentalDetailRepository;
+
     @Override
     public List<RentalReceiptResponse> createBooking(BookingRequest request) {
 
@@ -53,38 +56,53 @@ public class RentalReceiptSevice implements IRentalReceiptService {
         CustomerDTO  customerDTO = customerConverter.toCustomerDTO(customerEntity);
 
         // tinh ngay va tong gia tien
-        long daysBetween = ChronoUnit.DAYS.between(startDate, endDate);
+        long daysBetween = ChronoUnit.DAYS.between(startDate, endDate) + 1;
         Double totalPrice = daysBetween * pitchDTO.getPrice();
-
-        //save rentalReceiptEntity
-        RentalReceiptEntity rentalReceiptEntity = new RentalReceiptEntity();
-        rentalReceiptEntity.setCustomer(customerEntity);
-        rentalReceiptEntity.setStartDate(request.getStartDate());
-        rentalReceiptEntity.setEndDate(request.getEndDate());
-        rentalReceiptEntity.setTotalPrice(totalPrice);
-        rentalReceiptEntity.setDeposit(totalPrice*0.1);
-        rentalReceiptRepository.save(rentalReceiptEntity);
-
-        //get rentalReciept and save pitchRentalDetailRepository
-        RentalReceiptEntity rentalReceiptEntity1 = rentalReceiptRepository.findRentalReceipt(request.getStartDate(),request.getEndDate(),customerId);
-        PitchRentalDetailEntity pitchRentalDetailEntity = new PitchRentalDetailEntity();
-        pitchRentalDetailEntity.setRentalReceipt(rentalReceiptEntity1);
-        pitchRentalDetailEntity.setPitch(pitchEntity);
-        pitchRentalDetailEntity.setStDate(request.getStartDate());
-        pitchRentalDetailEntity.setEndDate(request.getEndDate());
-        pitchRentalDetailRepository.save(pitchRentalDetailEntity);
 
         //getCreate booking
         RentalReceiptResponse rentalReceiptResponse  = new RentalReceiptResponse();
-        rentalReceiptResponse.setCustomerName(customerDTO.getFullname());
+        rentalReceiptResponse.setIdKH(customerId);
+        rentalReceiptResponse.setIdPitch(pitchId);
+        rentalReceiptResponse.setTenKH(customerDTO.getFullname());
         rentalReceiptResponse.setTotalPrice(totalPrice);
         rentalReceiptResponse.setDeposit(totalPrice*0.1);
         rentalReceiptResponse.setPitchName(pitchDTO.getPitchName());
         rentalReceiptResponse.setPitchType(pitchDTO.getDescription());
         rentalReceiptResponse.setTotalDay(daysBetween);
         rentalReceiptResponse.setCustomerPhone(customerDTO.getPhone());
+        rentalReceiptResponse.setNgayBD(startDate);
+        rentalReceiptResponse.setNgayKT(endDate);
         List<RentalReceiptResponse> RentalReceiptResponses = new ArrayList<>();
         RentalReceiptResponses.add(rentalReceiptResponse);
         return RentalReceiptResponses;
+    }
+
+    @Override
+    public List<PitchRentalReceiptRequest> saveBooKing(PitchRentalReceiptRequest request) {
+        List<PitchRentalReceiptRequest> pitchRentalReceiptRequests =  new ArrayList<>();
+        Long pitchId = request.getIdPitch();
+        Long customerId = request.getIdKH();
+        LocalDate startDate = request.getNgayBD();
+        LocalDate endDate = request.getNgayKT();
+
+        PitchEntity pitchEntity = pitchRepository.findById(pitchId).orElse(null);
+        CustomerEntity customerEntity =  customerRepository.findById(customerId).orElse(null);
+
+        RentalReceiptEntity r = new RentalReceiptEntity();
+        r.setCustomer(customerEntity);
+        r.setDeposit(request.getDeposit());
+        r.setTotalPrice(request.getTotalPrice());
+        r.setSessionRentalPrice(pitchEntity.getPrice());
+        rentalReceiptRepository.save(r);
+
+        PitchRentalDetailEntity p = new PitchRentalDetailEntity();
+        p.setRentalReceipt(r);
+        p.setPitch(pitchEntity);
+        p.setStDate(startDate.toString());
+        p.setEndDate(endDate.toString());
+        pitchRentalDetailRepository.save(p);
+
+        return pitchRentalReceiptRequests;
+
     }
 }

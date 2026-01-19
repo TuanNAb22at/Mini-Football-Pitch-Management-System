@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface PitchRepositoryCustom {
     List<PitchEntity> findAvailablePitches(String startDate, String endDate, String pitchTypeId);
+    List<PitchEntity> findAvailablePitchesToday();
 }
