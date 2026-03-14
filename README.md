@@ -1,6 +1,6 @@
 # 🏟️ Hệ thống quản lý cho thuê sân bóng mini
 
-Hệ thống **Quản lý cho thuê sân bóng mini** hỗ trợ **chủ sân** và **nhân viên** quản lý toàn bộ nghiệp vụ: đặt sân theo **buổi/tháng**, lập **phiếu đặt sân**, **hóa đơn thanh toán**, quản lý **khách hàng – sân bóng – user**, quản lý **mặt hàng ăn uống & nhập hàng**, và **thống kê doanh thu**.
+Hệ thống **Quản lý cho thuê sân bóng mini** hỗ trợ **chủ sân** và **nhân viên** quản lý toàn bộ nghiệp vụ: đặt sân theo **buổi/tháng**, lập **phiếu đặt sân**, **hóa đơn thanh toán**, quản lý  **khách hàng – sân bóng – user**, quản lý **mặt hàng ăn uống & nhập hàng**, và **thống kê doanh thu**.
 
 ---
 
