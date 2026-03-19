@@ -15,7 +15,7 @@ Hệ thống **Quản lý cho thuê sân bóng mini** hỗ trợ **chủ sân** 
 - Đặt sân **theo buổi / theo tháng**, quản lý **khung giờ** và **trạng thái sân**.
 - Lập **phiếu đặt sân**, **hóa đơn**, quản lý **hợp đồng**.
 - Quản lý **khách hàng**, **user hệ thống**, phân quyền **ADMIN / NHÂN VIÊN**.
-- Quản lý **mặt hàng ăn uống**, **nhập hàng** từ nhà cung cấp.
+- Quản lý **mặt hàng ăn uống**, **nhập hàng** từ nhà cung cấp ,.
 - Thống kê doanh thu theo **tháng / quý / năm**.
 
 ### ⭐ Điểm mạnh khi trình bày dự án
