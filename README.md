@@ -9,7 +9,7 @@ Hệ thống **Quản lý cho thuê sân bóng mini** hỗ trợ **chủ sân** 
 
 ---
 
-## ✨ Tính năng nổi bật.
+## ✨ Tính năng nổi bật
 
 ### ✅ Nghiệp vụ chính
 - Đặt sân **theo buổi / theo tháng**, quản lý **khung giờ** và **trạng thái sân**.
